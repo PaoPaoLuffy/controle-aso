@@ -1,0 +1,379 @@
+/* ==========================================
+   TEMA BLUE LOCK / MICHAEL KAISER
+   Identidade: Elegância, Elite, Competitividade
+========================================== */
+
+:root {
+    --bl-bg: #030811; /* Preto Azulado Profundo */
+    --bl-card-bg: #0B1320;
+    --bl-neon-blue: #00E5FF;
+    --bl-dark-blue: #0A244A;
+    --bl-gold: #FFD700;
+    --bl-gold-dark: #B39700;
+    --bl-text: #E0EFFF;
+    --bl-text-muted: #8AA4C4;
+    
+    /* Status */
+    --bl-status-pendente: #FF2A2A; /* Vermelho Ameaçador */
+    --bl-status-aguardando: #FFB300; /* Amarelo Elétrico */
+    --bl-status-finalizado: #00E676; /* Verde Neon */
+}
+
+/* Container Principal */
+#treinamentos {
+    background-color: var(--bl-bg);
+    background-image: 
+        linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid var(--bl-dark-blue);
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.8), 0 0 20px rgba(0, 229, 255, 0.1);
+    color: var(--bl-text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 80vh;
+}
+
+/* Header */
+.bl-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--bl-dark-blue);
+    padding-bottom: 15px;
+}
+
+.bl-title h2 {
+    font-size: 2.2rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+}
+
+.bl-title h2 span {
+    color: var(--bl-gold);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    font-style: italic;
+}
+
+.bl-title p {
+    color: var(--bl-neon-blue);
+    margin-top: 5px;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+/* Controles (Pesquisa e Botão) */
+.bl-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.bl-search-box input {
+    background: rgba(11, 19, 32, 0.8);
+    border: 1px solid var(--bl-neon-blue);
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 4px;
+    width: 250px;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 229, 255, 0.2);
+    transition: 0.3s;
+}
+
+.bl-search-box input:focus {
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+}
+
+.bl-btn-gold {
+    background: linear-gradient(45deg, var(--bl-gold-dark), var(--bl-gold));
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    transition: all 0.3s;
+    letter-spacing: 1px;
+}
+
+.bl-btn-gold:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+/* Filtros de Meses */
+.bl-month-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.bl-month-btn {
+    background: transparent;
+    border: 1px solid var(--bl-dark-blue);
+    color: var(--bl-text-muted);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.bl-month-btn:hover {
+    border-color: var(--bl-neon-blue);
+    color: var(--bl-neon-blue);
+}
+
+.bl-month-btn.active {
+    background: rgba(0, 229, 255, 0.1);
+    border-color: var(--bl-neon-blue);
+    color: var(--bl-neon-blue);
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+}
+
+/* Grade e Cartões */
+.bl-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.bl-card {
+    background: var(--bl-card-bg);
+    border: 1px solid var(--bl-dark-blue);
+    border-left: 4px solid var(--bl-neon-blue);
+    border-radius: 6px;
+    padding: 20px;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.bl-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5), 0 0 15px rgba(0, 229, 255, 0.2);
+    border-color: var(--bl-neon-blue);
+}
+
+.bl-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.bl-card-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #fff;
+    margin: 0;
+    padding-right: 50px;
+}
+
+.bl-card-actions {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    gap: 8px;
+}
+
+.bl-action-btn {
+    background: none;
+    border: none;
+    color: var(--bl-text-muted);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.bl-action-btn.edit:hover { color: var(--bl-neon-blue); text-shadow: 0 0 5px var(--bl-neon-blue); }
+.bl-action-btn.delete:hover { color: var(--bl-status-pendente); text-shadow: 0 0 5px var(--bl-status-pendente); }
+
+.bl-card-trainings {
+    font-size: 0.9rem;
+    color: var(--bl-gold);
+    font-weight: bold;
+}
+
+.bl-card-date {
+    font-size: 0.85rem;
+    color: var(--bl-text-muted);
+}
+
+.bl-card-bottom {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.bl-status-select, .bl-date-input {
+    background: #050B14;
+    border: 1px solid var(--bl-dark-blue);
+    color: #fff;
+    padding: 6px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    outline: none;
+    cursor: pointer;
+}
+
+.bl-status-select { flex: 1; font-weight: bold; }
+.bl-date-input { width: 120px; }
+
+/* Cores de Status Dinâmicas no Select */
+.bl-status-select.Pendente { color: var(--bl-status-pendente); border-color: var(--bl-status-pendente); }
+.bl-status-select.Aguardando { color: var(--bl-status-aguardando); border-color: var(--bl-status-aguardando); }
+.bl-status-select.Finalizado { color: var(--bl-status-finalizado); border-color: var(--bl-status-finalizado); }
+
+/* Alertas de Data de Cobrança */
+.bl-date-input.overdue { 
+    color: var(--bl-status-pendente); 
+    border-color: var(--bl-status-pendente);
+    box-shadow: 0 0 8px rgba(255, 42, 42, 0.4);
+}
+.bl-date-input.warning { 
+    color: var(--bl-status-aguardando); 
+    border-color: var(--bl-status-aguardando);
+    box-shadow: 0 0 8px rgba(255, 179, 0, 0.4);
+}
+
+/* Modal */
+.bl-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.bl-modal-content {
+    background: var(--bl-bg);
+    border: 1px solid var(--bl-neon-blue);
+    border-radius: 8px;
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
+}
+
+.bl-modal-content h3 {
+    color: var(--bl-gold);
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--bl-dark-blue);
+    padding-bottom: 10px;
+}
+
+.bl-form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.bl-form-group label {
+    font-size: 0.9rem;
+    color: var(--bl-neon-blue);
+    font-weight: bold;
+}
+
+.bl-form-group input[type="text"], 
+.bl-form-group input[type="date"] {
+    background: #050B14;
+    border: 1px solid var(--bl-dark-blue);
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    outline: none;
+}
+
+.bl-form-group input:focus {
+    border-color: var(--bl-neon-blue);
+}
+
+.bl-checkbox-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    background: #050B14;
+    padding: 15px;
+    border: 1px solid var(--bl-dark-blue);
+    border-radius: 4px;
+}
+
+.bl-checkbox-grid label {
+    color: #fff;
+    font-weight: normal;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.bl-checkbox-grid input[type="checkbox"] {
+    accent-color: var(--bl-neon-blue);
+}
+
+.bl-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.bl-btn-cancel {
+    background: transparent;
+    color: var(--bl-text-muted);
+    border: 1px solid var(--bl-text-muted);
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.bl-btn-cancel:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+.bl-btn-save {
+    background: var(--bl-neon-blue);
+    color: #000;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+    transition: 0.3s;
+}
+
+.bl-btn-save:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.6);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .bl-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+    .bl-controls { width: 100%; flex-direction: column; align-items: stretch; }
+    .bl-search-box input { width: 100%; }
+    .bl-checkbox-grid { grid-template-columns: 1fr 1fr; }
+}

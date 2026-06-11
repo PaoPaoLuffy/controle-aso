@@ -1,0 +1,269 @@
+/* =========================================
+   TEMA: DEKU / BOKU NO HERO (CHECKLIST VISUAL UPDATE)
+   ARQUIVO: stylestwo.css
+========================================= */
+
+.deku-notebook {
+    background-color: #fcfdfc;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    max-width: 900px;
+    margin: 0 auto;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    border-left: 12px solid #0D3B2F; /* Encadernação Verde Escuro */
+    transition: all 0.5s ease;
+}
+
+/* NOVO CABEÇALHO */
+.notebook-header {
+    background-color: #fcfdfc;
+    color: #0D3B2F;
+    padding: 30px 40px;
+    border-bottom: 3px dashed #3ED37F; /* Detalhe tracejado */
+    position: relative;
+}
+
+.notebook-header h2 {
+    margin: 0;
+    color: #0D3B2F;
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.notebook-header .subtitle {
+    margin: 5px 0 15px 0;
+    color: #555;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+.notebook-header .quote {
+    margin: 0;
+    color: #d32f2f; /* Detalhe vermelho simulando anotação importante */
+    font-style: italic;
+    font-weight: 500;
+    font-size: 0.95rem;
+    border-left: 3px solid #f4c430; /* Detalhe amarelo */
+    padding-left: 10px;
+}
+
+/* NOVO FUNDO DE CADERNO JAPONÊS QUADRICULADO */
+.notebook-pages {
+    padding: 30px 40px 30px 60px;
+    background-color: #fcfdfc;
+    /* Efeito de folhas quadriculadas com linhas em verde muito claro */
+    background-image: 
+        linear-gradient(rgba(62, 211, 127, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(62, 211, 127, 0.15) 1px, transparent 1px);
+    background-size: 25px 25px; /* Tamanho dos quadrados */
+    position: relative;
+}
+
+/* Linha margem esquerda clássica */
+.notebook-pages::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 45px;
+    width: 2px;
+    background-color: rgba(211, 47, 47, 0.4); /* Linha vermelha discreta */
+    z-index: 0;
+}
+
+/* Itens do Checklist */
+.check-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 5px 15px;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.7); /* Fundo sutil para leitura */
+    border-radius: 4px;
+}
+
+.check-item:hover {
+    background-color: rgba(62, 211, 127, 0.1);
+}
+
+.check-item.completed {
+    opacity: 0.6;
+}
+
+.check-item.completed label {
+    text-decoration: line-through;
+    color: #666;
+}
+
+/* Custom Checkbox */
+.check-item input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #0D3B2F;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.check-item input[type="checkbox"]:checked {
+    background-color: #3ED37F;
+    border-color: #3ED37F;
+}
+
+.check-item input[type="checkbox"]:checked::after {
+    content: '\2714';
+    font-size: 14px;
+    color: #0D3B2F;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.check-item label {
+    font-size: 1.05rem;
+    color: #222;
+    cursor: pointer;
+    font-weight: 500;
+    width: 100%;
+}
+
+/* SEÇÃO DE PROGRESSO E ONE FOR ALL */
+.progress-section {
+    padding: 40px;
+    background-color: #f5f8f6;
+    border-top: 3px solid #0D3B2F;
+    text-align: center;
+}
+
+.hero-message {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #0D3B2F;
+    margin-bottom: 20px;
+    transition: all 0.4s ease;
+}
+
+/* Texto Acima da Barra */
+.ofa-title {
+    font-size: 0.9rem;
+    font-weight: 900;
+    color: #0D3B2F;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+}
+
+/* Barra de Progresso */
+.progress-bar-container {
+    width: 100%;
+    height: 35px; /* Barra maior */
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #0D3B2F;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 4px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
+    position: relative;
+}
+
+#progress-percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: #0D3B2F;
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.9);
+    z-index: 2;
+}
+
+/* ANIMAÇÕES ESPECIAIS */
+
+/* 75%: Vá ainda mais além */
+.going-beyond {
+    font-size: 1.6rem !important;
+    color: #3ED37F !important;
+    text-shadow: 0 0 10px rgba(62, 211, 127, 0.8);
+    animation: gentle-pulse 1.5s infinite;
+}
+
+/* 100%: PLUS ULTRA */
+.plus-ultra-text {
+    font-size: 2rem !important;
+    color: #00ff66 !important;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px #3ED37F, 0 0 20px #0D3B2F;
+    animation: full-cowl-pulse 1s infinite;
+}
+
+/* Efeito de energia na página e na barra em 100% */
+.plus-ultra-mode {
+    box-shadow: 0 0 30px rgba(62, 211, 127, 0.5), inset 0 0 20px rgba(62, 211, 127, 0.2);
+    border-left-color: #3ED37F;
+}
+
+.plus-ultra-mode .progress-bar-fill {
+    background-image: linear-gradient(90deg, #3ED37F, #00ff66, #3ED37F);
+    background-size: 200% auto;
+    animation: energy-flow 1.5s linear infinite;
+    box-shadow: 0 0 20px #3ED37F;
+}
+
+@keyframes gentle-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes full-cowl-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); text-shadow: 0 0 20px #3ED37F, 0 0 30px #0D3B2F; }
+    100% { transform: scale(1); }
+}
+
+@keyframes energy-flow {
+    to { background-position: 200% center; }
+}
+
+/* Botão Reiniciar */
+.btn-plus-ultra {
+    margin-top: 25px;
+    background-color: #0D3B2F;
+    color: #3ED37F;
+    border: 2px solid #3ED37F;
+    padding: 12px 35px;
+    font-size: 1.1rem;
+    font-weight: 900;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.btn-plus-ultra:hover {
+    background-color: #3ED37F;
+    color: #0D3B2F;
+    box-shadow: 0 0 15px rgba(62, 211, 127, 0.6);
+    transform: translateY(-2px);
+}

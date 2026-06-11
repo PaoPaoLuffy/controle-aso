@@ -1,0 +1,177 @@
+/* ==========================================
+   ABA BACKUP (O CADERNO MULTIVERSO)
+   ARQUIVO: stylefive.css
+   ========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Permanent+Marker&family=Cinzel:wght@700&display=swap');
+
+.bkp-wrapper {
+    background-color: #0a0b10;
+    min-height: 85vh;
+    border-radius: 12px;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    /* Textura de caderno escolar escuro com grade fina */
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        radial-gradient(circle at 50% 50%, rgba(10, 11, 16, 0.8) 0%, rgba(5, 5, 8, 1) 100%);
+    background-size: 30px 30px, 30px 30px, 100% 100%;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
+}
+
+/* ==========================================
+   RABISCOS E EASTER EGGS (PSEUDO-ELEMENTOS)
+   ========================================== */
+.bkp-notebook {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* MARCAS DO DEKU (Verde) & HOMEM-ARANHA (Vermelho) */
+.bkp-notebook::before {
+    content: "ONE FOR ALL \A ⚡ 100% \A \A \A \A 🕸️ \A \A THWIP! \A 🕷️ \A \A \A PLUS ULTRA!";
+    position: absolute;
+    top: 5%; left: 5%;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 30px;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(0, 255, 100, 0.15); /* Verde Deku */
+    line-height: 1.5;
+    transform: rotate(-15deg);
+    pointer-events: none;
+    z-index: 0;
+    white-space: pre-wrap;
+    text-shadow: 0 0 20px rgba(255, 0, 50, 0.1); /* Vermelho Aranha no brilho */
+}
+
+/* MARCAS DO KAISER (Azul/Dourado) & LUFFY (Vermelho/Palha) & JJK (Roxo) */
+.bkp-notebook::after {
+    content: "KING \A ♛ \A BLUE ROSE \A 10 \A \A \A 🍖 GEAR 5 \A 👒 \A \A \A 777 \A DOMAIN EXPANSION \A ⚔️";
+    position: absolute;
+    bottom: 5%; right: 5%;
+    font-family: 'Caveat', cursive;
+    font-size: 40px;
+    color: rgba(255, 255, 255, 0.08);
+    line-height: 1.2;
+    transform: rotate(10deg);
+    pointer-events: none;
+    z-index: 0;
+    white-space: pre-wrap;
+    text-align: right;
+    text-shadow: 0 0 15px rgba(0, 229, 255, 0.1), /* Azul Kaiser */
+                 -20px -50px 30px rgba(157, 0, 255, 0.1); /* Roxo JJK */
+}
+
+/* Partículas/Rabiscos centrais */
+.bkp-center-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    background: rgba(10, 11, 16, 0.6);
+    padding: 60px;
+    border-radius: 20px;
+    border: 1px dashed rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+}
+
+.bkp-center-content::before {
+    content: "→ SALVAR \A \A ← RESTAURAR";
+    position: absolute;
+    top: 50%; left: -80px;
+    transform: translateY(-50%) rotate(-90deg);
+    font-family: 'Caveat', cursive;
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 24px;
+    letter-spacing: 5px;
+    pointer-events: none;
+}
+
+/* ==========================================
+   TÍTULOS E BOTÕES
+   ========================================== */
+.bkp-title {
+    font-family: 'Cinzel', serif;
+    font-size: 45px;
+    color: #fff;
+    margin: 0;
+    letter-spacing: 4px;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.bkp-subtitle {
+    font-family: 'Caveat', cursive;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 5px;
+    margin-bottom: 50px;
+    transform: rotate(-2deg);
+}
+
+.bkp-actions {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Botões Premium */
+.bkp-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 220px;
+    height: 160px;
+    background: linear-gradient(145deg, #12151f, #0a0b10);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #fff;
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
+}
+
+.bkp-icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+    transition: 0.4s;
+}
+
+/* Efeito Hover - Exportar (Luz Azul/Verde - Kaiser/Deku) */
+.bkp-export:hover {
+    border-color: #00E5FF;
+    box-shadow: 0 10px 30px rgba(0, 229, 255, 0.2), inset 0 0 20px rgba(0, 255, 100, 0.1);
+    transform: translateY(-5px);
+}
+.bkp-export:hover .bkp-icon { transform: scale(1.1) translateY(-5px); filter: drop-shadow(0 0 15px #00E5FF); }
+
+/* Efeito Hover - Importar (Luz Dourada/Roxa - JJK/Kaiser) */
+.bkp-import:hover {
+    border-color: #FFD700;
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2), inset 0 0 20px rgba(157, 0, 255, 0.1);
+    transform: translateY(-5px);
+}
+.bkp-import:hover .bkp-icon { transform: scale(1.1) translateY(-5px); filter: drop-shadow(0 0 15px #FFD700); }
+
+/* Feixe de luz passando no botão */
+.bkp-btn::after {
+    content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: skewX(-25deg);
+    transition: 0.5s;
+}
+.bkp-btn:hover::after { left: 150%; }

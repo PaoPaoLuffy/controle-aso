@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de ASOs - Spidey Notebook</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="stylestwo.css">
+    <link rel="stylesheet" href="stylethree.css">
+    <link rel="stylesheet" href="stylefour.css">
+    <link rel="stylesheet" href="stylefive.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <div class="notebook-container">
+        <header class="notebook-header">
+            <div class="title-area">
+                <i class="fa-solid fa-spider"></i>
+                <h1>Controle de ASOs</h1>
+                <span class="subtitle">Segurança do Trabalho</span>
+            </div>
+            <nav class="tabs">
+                <button class="tab-btn active" id="btn-tab-controle" onclick="openTab('controle')"><i class="fa-solid fa-clipboard-list"></i> Controle de ASO</button>
+                <button class="tab-btn" id="btn-tab-dashboard" onclick="openTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
+                <button class="tab-btn" id="btn-tab-tarefas" onclick="openTab('tarefas')"><i class="fa-solid fa-clipboard-list"></i> Tarefas</button>
+                <button class="tab-btn deku-tab-btn" id="btn-tab-checklist" onclick="openTab('ChecklistEnvio')">
+                    <i class="fa-solid fa-book-open"></i> Checklist de Envio
+                </button>
+                <button class="tab-btn" id="btn-tab-treinamentos" onclick="openTab('treinamentos')"><i class="fa-solid fa-clipboard-list"></i>
+                     Treinamentos
+                </button>
+                <button class="tab-btn" id="btn-tab-guia-procedimentos" onclick="openTab('guia-procedimentos')"><i class="fa-solid fa-book-open"></i>
+                    Guia de Procedimentos
+                </button>
+                <button class="tab-btn" id="btn-tab-backup" onclick="openTab('backup')">
+                    <i class="fa-solid fa-floppy-disk"></i> Backup
+                </button>
+            </nav>
+        </header>
+
+        <main class="notebook-content">
+            <section id="controle" class="tab-content active">
+                <div class="top-controls">
+                    <div class="form-card add-form">
+                        <h3><i class="fa-solid fa-user-plus"></i> Novo Colaborador</h3>
+                        <form id="form-add" onsubmit="addEmployee(event)">
+                            <div class="input-group">
+                                <input type="text" id="add-name" placeholder="Nome Completo" required autocomplete="off">
+                                <input type="date" id="add-date" required>
+                                <button type="submit" class="btn-primary"><i class="fa-solid fa-plus"></i> Adicionar</button>
+                            </div>
+                            <small id="date-error" class="error-msg"></small>
+                        </form>
+                    </div>
+
+                    <div class="form-card search-card">
+                        <h3><i class="fa-solid fa-magnifying-glass"></i> Pesquisar</h3>
+                        <input type="text" id="search-input" placeholder="Buscar pelo nome..." onkeyup="filterByName()">
+                    </div>
+                </div>
+
+                <div class="month-filters" id="month-filters"></div>
+                <div class="employee-list" id="employee-list"></div>
+            </section>
+
+            <section id="dashboard" class="tab-content">
+                <div class="action-buttons-top">
+                    <button class="btn-export excel" onclick="exportToExcel()"><i class="fa-solid fa-file-excel"></i> Excel</button>
+                    <button class="btn-export pdf" onclick="exportToPDF()"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+                    <button class="btn-export backup-out" onclick="exportBackup()"><i class="fa-solid fa-download"></i> Exportar Backup</button>
+                    <label class="btn-export backup-in">
+                        <i class="fa-solid fa-upload"></i> Importar Backup
+                        <input type="file" id="import-backup" accept=".json" onchange="importBackup(event)" hidden>
+                    </label>
+                </div>
+
+                <div class="summary-cards">
+                    <div class="card summary-total">
+                        <i class="fa-solid fa-users"></i>
+                        <div class="info">
+                            <span class="value" id="dash-total">0</span>
+                            <span class="label">Total Cadastrados</span>
+                        </div>
+                    </div>
+                    <div class="card summary-pendente">
+                        <i class="fa-solid fa-clock"></i>
+                        <div class="info">
+                            <span class="value" id="dash-pendentes">0</span>
+                            <span class="label">Pendentes</span>
+                        </div>
+                    </div>
+                    <div class="card summary-aguardando">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                        <div class="info">
+                            <span class="value" id="dash-aguardando">0</span>
+                            <span class="label">Aguardando Lib.</span>
+                        </div>
+                    </div>
+                    <div class="card summary-concluido">
+                        <i class="fa-solid fa-check-circle"></i>
+                        <div class="info">
+                            <span class="value" id="dash-concluidos">0</span>
+                            <span class="label">Concluídos</span>
+                        </div>
+                    </div>
+                    <div class="dash-card">
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dash-section alerts-section">
+                        <h3><i class="fa-solid fa-triangle-exclamation"></i> Próximos do Vencimento</h3>
+                        <div id="alerts-list" class="alerts-list"></div>
+                    </div>
+
+                    <div class="dash-section charts-section">
+                        <div class="chart-container">
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="monthChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dash-section pendentes-section">
+                    <h3><i class="fa-solid fa-list-check"></i> Colaboradores Pendentes</h3>
+                    <div class="table-responsive">
+                        <table class="spidey-table">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Vencimento</th>
+                                    <th>Mês</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-pendentes"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <div id="tarefas" class="tab-content">
+                <div class="op-header-container">
+                    <h2><i class="fa-solid fa-compass"></i> Diário de Bordo - Tarefas</h2>
+                    <button class="op-btn-primary" onclick="openTaskModal()"><i class="fa-solid fa-plus"></i> Nova Ordem do Capitão</button>
+                </div>
+
+                <div class="op-filter-bar">
+                    <div class="op-search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="task-search-input" placeholder="Procurar tarefa em ca...">
+                    </div>
+                    <div id="task-filters" class="op-filters-group">
+                        <button class="op-filter-btn active" onclick="setTaskFilter('Todas')">Todas</button>
+                        <button class="op-filter-btn" onclick="setTaskFilter('Em andamento')">Em Andamento</button>
+                        <button class="op-filter-btn" onclick="setTaskFilter('Concluída')">Concluídas</button>
+                    </div>
+                </div>
+
+                <div id="task-list" class="op-task-grid"></div>
+            </div>
+
+            <div id="ChecklistEnvio" class="tab-content">
+                <div class="deku-notebook">
+                    <div class="notebook-header">
+                        <h2>📓 CADERNO DE HERÓI Nº 13</h2>
+                        <p class="subtitle">Anotações do Midoriya para documentação</p>
+                        <p class="quote">"A preparação é o primeiro passo para salvar alguém."</p>
+                    </div>
+
+                    <div id="checklist-container" class="notebook-pages">
+                    </div>
+
+                    <div class="progress-section">
+                        <p id="progress-message" class="hero-message">Hora de começar a análise!</p>
+
+                        <div class="ofa-title">ONE FOR ALL</div>
+
+                        <div class="progress-bar-container">
+                            <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                            <span id="progress-percentage">0%</span>
+                        </div>
+                        <button id="btn-reset-checklist" class="btn-plus-ultra" style="display: none;">
+                            Reiniciar Checklist <i class="fa-solid fa-bolt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="treinamentos" class="tab-content">
+                <div class="bl-container">
+                    <div class="bl-header">
+                        <div class="bl-title">
+                            <h2>Treinamentos <span>Elite</span></h2>
+                            <p>Sistema de Acompanhamento de Certificações</p>
+                        </div>
+                        <div class="bl-controls">
+                            <div class="bl-search-box">
+                                <input type="text" id="bl-search" placeholder="Pesquisar colaborador..." onkeyup="renderInterfaceBL()">
+                            </div>
+                            <button id="bl-btn-novo" class="bl-btn-gold" onclick="openModalBL()">+ Novo Treinamento</button>
+                        </div>
+                    </div>
+
+                    <div class="bl-month-filters" id="bl-month-filters">
+                    </div>
+
+                    <div class="bl-grid" id="bl-grid">
+                    </div>
+                </div>
+            </div>
+
+            <div id="guia-procedimentos" class="tab-content">
+                <div class="proc-header">
+                    <div class="proc-title-area">
+                        <h2 class="proc-title">Biblioteca de Procedimentos</h2>
+                        <p class="proc-subtitle">"Esse é o Jujutsu de verdade."</p>
+                    </div>
+                    <div class="proc-controls">
+                        <input type="text" id="proc-search" placeholder="Pesquisar técnicas..." onkeyup="jjk_filterProcedures()">
+                        <button class="proc-btn-neon" onclick="jjk_openEditModal()">+ Novo Procedimento</button>
+                    </div>
+                </div>
+                <div id="proc-grid" class="proc-grid"></div>
+            </div>
+
+            <div id="backup" class="tab-content">
+                <div class="bkp-wrapper">
+                    <div class="bkp-notebook">
+                        <div class="bkp-center-content">
+                            <h2 class="bkp-title">CENTRAL DE MEMÓRIAS</h2>
+                            <p class="bkp-subtitle">"Faça o backup pra não perder nada."</p>
+                            
+                            <div class="bkp-actions">
+                                <button id="btn-export-backup" class="bkp-btn bkp-export">
+                                    <span class="bkp-icon">💾</span> Exportar Backup
+                                </button>
+                                
+                                <input type="file" id="input-import-backup" accept=".json" style="display: none;">
+                                
+                                <button id="btn-import-backup" class="bkp-btn bkp-import">
+                                    <span class="bkp-icon">📂</span> Importar Backup
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </main>
+    </div>
+
+    <div id="edit-modal" class="modal">
+        <div class="modal-content paper-effect">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2><i class="fa-solid fa-pen-to-square"></i> Editar Colaborador</h2>
+            <form id="form-edit" onsubmit="saveEdit(event)">
+                <input type="hidden" id="edit-id">
+                <div class="input-group-vertical">
+                    <label>Nome Completo</label>
+                    <input type="text" id="edit-name" required autocomplete="off">
+                </div>
+                <div class="input-group-vertical">
+                    <label>Data de Vencimento</label>
+                    <input type="date" id="edit-date" required>
+                    <small id="edit-date-error" class="error-msg"></small>
+                </div>
+                <div class="input-group-vertical">
+                    <label>Status</label>
+                    <select id="edit-status">
+                        <option value="Pendente">Pendente</option>
+                        <option value="Aguardando Liberação">Aguardando Liberação</option>
+                        <option value="Concluído">Concluído</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary mt-2">Salvar Alterações</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="task-modal" class="op-modal" style="display: none;">
+        <div class="op-modal-content">
+            <h3 id="task-modal-title">Nova Ordem do Capitão</h3>
+            <form id="task-form" onsubmit="saveTask(event)">
+                <input type="hidden" id="task-id">
+
+                <div class="op-form-group">
+                    <label for="task-name">Nome da Tarefa *</label>
+                    <input type="text" id="task-name" required placeholder="Ex: Mapear a rota...">
+                </div>
+
+                <div class="op-form-group">
+                    <label for="task-deadline">Prazo de Entrega (Opcional)</label>
+                    <input type="date" id="task-deadline">
+                </div>
+
+                <div class="op-form-group">
+                    <label for="task-urgency">Nível de Urgência *</label>
+                    <select id="task-urgency" required>
+                        <option value="Baixa">Baixa (Verde)</option>
+                        <option value="Média">Média (Amarelo)</option>
+                        <option value="Alta">Alta (Laranja)</option>
+                        <option value="Urgente">Urgente (Vermelho)</option>
+                    </select>
+                </div>
+
+                <div class="op-modal-actions">
+                    <button type="button" class="op-btn-secondary" onclick="closeTaskModal()">Cancelar</button>
+                    <button type="submit" class="op-btn-submit">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="bl-modal" id="bl-modal">
+        <div class="bl-modal-content">
+            <h3 id="bl-modal-title" class="bl-modal-title">Novo Treinamento</h3>
+            <input type="hidden" id="bl-id">
+
+            <div class="bl-form-group">
+                <label>Nome do Colaborador</label>
+                <input type="text" id="bl-nome" placeholder="Ex: Isagi Yoichi">
+            </div>
+
+            <div class="bl-form-group">
+                <label>Mês de Referência</label>
+                <select id="bl-mes" class="bl-status-select" style="padding: 10px; background: #050B14; border: 1px solid var(--bl-dark-blue); color: #fff; width: 100%; border-radius: 4px;">
+                    <option value="Janeiro">Janeiro</option>
+                    <option value="Fevereiro">Fevereiro</option>
+                    <option value="Março">Março</option>
+                    <option value="Abril">Abril</option>
+                    <option value="Maio">Maio</option>
+                    <option value="Junho">Junho</option>
+                    <option value="Julho">Julho</option>
+                    <option value="Agosto">Agosto</option>
+                    <option value="Setembro">Setembro</option>
+                    <option value="Outubro">Outubro</option>
+                    <option value="Novembro">Novembro</option>
+                    <option value="Dezembro">Dezembro</option>
+                </select>
+            </div>
+
+            <div class="bl-form-group">
+                <label>Treinamentos</label>
+                <div class="bl-checkbox-grid">
+                    <label><input type="checkbox" value="NR10" class="bl-check"> NR10</label>
+                    <label><input type="checkbox" value="SEP" class="bl-check"> SEP</label>
+                    <label><input type="checkbox" value="NR18" class="bl-check"> NR18</label>
+                    <label><input type="checkbox" value="DIR DEF" class="bl-check"> DIR DEF</label>
+                    <label><input type="checkbox" value="NR6" class="bl-check"> NR6</label>
+                    <label><input type="checkbox" value="Integração" class="bl-check"> Integração</label>
+                </div>
+            </div>
+
+            <div class="bl-modal-actions">
+                <button class="bl-btn-cancel" id="bl-btn-cancel" onclick="closeModalBL()">Cancelar</button>
+                <button class="bl-btn-save" id="bl-btn-save" onclick="saveModalBL()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="proc-view-modal" class="proc-modal-overlay">
+        <div class="proc-domain-expansion">
+            <button class="proc-close-domain" onclick="jjk_closeViewModal()">✖</button>
+            <div class="proc-view-header">
+                <h2 id="view-proc-title">Nome do Procedimento</h2>
+                <span id="view-proc-cat" class="proc-view-badge">Categoria</span>
+            </div>
+            <p id="view-proc-desc" class="proc-view-desc">Descrição do procedimento...</p>
+
+            <div class="proc-view-steps" id="view-proc-steps">
+            </div>
+        </div>
+    </div>
+
+    <div id="proc-edit-modal" class="proc-modal-overlay">
+        <div class="proc-edit-box">
+            <h2 id="edit-proc-modal-title" class="proc-edit-title">Criar Procedimento</h2>
+
+            <div class="proc-form-grid">
+                <div class="proc-input-group full-width">
+                    <label>Nome do Procedimento *</label>
+                    <input type="text" id="proc-input-name" placeholder="Ex: Cadastro de Colaborador">
+                </div>
+                <div class="proc-input-group">
+                    <label>Categoria</label>
+                    <input type="text" id="proc-input-cat" placeholder="Ex: DP / Segurança">
+                </div>
+                <div class="proc-input-group full-width">
+                    <label>Descrição</label>
+                    <input type="text" id="proc-input-desc" placeholder="Resumo do que se trata...">
+                </div>
+            </div>
+
+            <div class="proc-steps-editor">
+                <div class="proc-steps-header">
+                    <h3>Passo a Passo</h3>
+                    <button type="button" class="proc-btn-add-step" onclick="jjk_addStepRow()">+ Adicionar Passo</button>
+                </div>
+                <div id="proc-steps-container">
+                </div>
+            </div>
+
+            <div class="proc-edit-actions">
+                <button class="proc-btn-cancel" onclick="jjk_closeEditModal()">Cancelar</button>
+                <button class="proc-btn-save" onclick="jjk_saveProcedure()">Salvar Técnica</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="scripttwo.js"></script>
+    <script src="scriptthree.js"></script>
+    <script src="scriptfour.js"></script>
+    <script src="scriptfive.js"></script>
+</body>
+</html>
