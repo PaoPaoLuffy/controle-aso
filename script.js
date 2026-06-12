@@ -601,6 +601,7 @@ function renderTasks() {
                     <button class="op-action-btn" onclick="deleteTask('${task.id}')" title="Remover"><i class="fa-solid fa-skull"></i></button>
                 </div>
                 <h4>${task.name}</h4>
+                ${task.description ? `<div class="op-task-desc-text">${task.description}</div>` : ''}
                 ${deadlineInfoHTML}
                 <div class="op-task-meta"><i class="fa-solid fa-compass"></i> Criada em: ${new Date(task.createdAt).toLocaleDateString('pt-BR')}</div>
                 <span class="op-badge urg-${task.urgency.toLowerCase()}">${task.urgency}</span>
@@ -631,6 +632,7 @@ function openTaskModal(id = null) {
     
     document.getElementById('task-id').value = id || '';
     document.getElementById('task-name').value = '';
+    document.getElementById('task-desc').value = '';
     document.getElementById('task-deadline').value = '';
     document.getElementById('task-urgency').value = 'Baixa';
 
@@ -639,6 +641,7 @@ function openTaskModal(id = null) {
         const task = tasks.find(t => t.id === id);
         if (task) {
             document.getElementById('task-name').value = task.name;
+            document.getElementById('task-desc').value = task.description || '';
             document.getElementById('task-deadline').value = task.deadline || '';
             document.getElementById('task-urgency').value = task.urgency;
         }
@@ -656,6 +659,7 @@ function closeTaskModal() {
 function saveTask() {
     const id = document.getElementById('task-id').value;
     const name = document.getElementById('task-name').value.trim();
+    const desc = document.getElementById('task-desc').value.trim();
     const deadline = document.getElementById('task-deadline').value;
     const urgency = document.getElementById('task-urgency').value;
 
@@ -666,6 +670,7 @@ function saveTask() {
         const task = tasks.find(t => t.id === id);
         if (task) {
             task.name = name;
+            task.description = desc;
             task.deadline = deadline;
             task.urgency = urgency;
         }
@@ -674,6 +679,7 @@ function saveTask() {
         const newTask = {
             id: generateId(),
             name: name,
+            description: desc,
             deadline: deadline,
             urgency: urgency,
             status: 'Em andamento',
@@ -683,6 +689,7 @@ function saveTask() {
     }
 
     saveTasksState();
+    document.getElementById('task-desc').value = '';
     closeTaskModal();
     renderTasks();
 }
