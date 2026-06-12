@@ -693,6 +693,43 @@ input:focus, select:focus {
     gap: 5px;
 }
 
+/* Correção: garante que os botões absolutos respeitem o card */
+.op-task-card {
+    position: relative;
+}
+
+/* Espaço seguro para o texto não ser coberto pelos botões */
+.op-task-main h4 {
+    padding-right: 55px;
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+/* Estilo da textarea de descrição no modal */
+textarea#task-desc {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    font-family: inherit;
+    resize: vertical;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #3e2723;
+    box-sizing: border-box;
+}
+
+/* Bloco de descrição exibido no card */
+.op-task-desc-text {
+    font-size: 0.85em;
+    color: #444;
+    margin: 8px 0 12px 28px;
+    font-style: italic;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 6px 10px;
+    border-left: 3px solid #8b0000;
+    border-radius: 4px;
+}
+
 .op-action-btn {
     background: none;
     border: none;
